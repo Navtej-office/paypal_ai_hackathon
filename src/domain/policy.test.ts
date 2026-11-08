@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { canSendReminder, type ReminderLimits } from "./policy";
+import { canSendReminder, ReminderLimits } from "./policy";
+
 
 const limits: ReminderLimits = { maxReminders: 3, minGapDays: 3 };
 const day = (d: number) => new Date(Date.UTC(2026, 10, d)); // November 2026
