@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { summarize } from "./summary";
+
 import type { Deal } from "./types";
+import { summarize } from "./summary";
 
 const day = (d: number) => new Date(Date.UTC(2026, 10, d));
 
