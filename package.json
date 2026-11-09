@@ -7,7 +7,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "sandbox": "tsx --env-file=.env.local scripts/sandbox-invoice.ts",
-    "extract": "tsx --env-file=.env.local src/scripts/try-extract.ts"
+    "extract": "tsx --env-file=.env.local src/scripts/try-extract.ts",
+    "try-store": "tsx --env-file=.env.local src/scripts/try-store.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "@types/ws": "^8.18.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^4.1.12"
@@ -22,6 +24,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^1.6.0",
     "@supabase/supabase-js": "^2.109.0",
+    "ws": "^8.22.2",
     "zod": "^4.6.7"
   }
 }
