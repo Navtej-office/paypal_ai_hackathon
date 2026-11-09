@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "sandbox": "tsx --env-file=.env.local scripts/sandbox-invoice.ts"
+    "sandbox": "tsx --env-file=.env.local scripts/sandbox-invoice.ts",
+    "extract": "tsx --env-file=.env.local src/scripts/try-extract.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "vitest": "^4.1.12"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
     "zod": "^4.6.7"
   }
 }
