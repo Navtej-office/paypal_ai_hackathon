@@ -8,7 +8,10 @@
     "test:watch": "vitest",
     "sandbox": "tsx --env-file=.env.local scripts/sandbox-invoice.ts",
     "extract": "tsx --env-file=.env.local src/scripts/try-extract.ts",
-    "try-store": "tsx --env-file=.env.local src/scripts/try-store.ts"
+    "try-store": "tsx --env-file=.env.local src/scripts/try-store.ts",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +19,8 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@types/ws": "^8.18.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
@@ -24,6 +29,10 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^1.6.0",
     "@supabase/supabase-js": "^2.109.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "^0.0.1",
     "ws": "^8.22.2",
     "zod": "^4.6.7"
   }
