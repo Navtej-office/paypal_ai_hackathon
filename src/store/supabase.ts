@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import ws from "ws";
+import { AuditActor } from "./dealStore";
 
 type Transport = NonNullable<NonNullable<Parameters<typeof createClient>[2]>["realtime"]>["transport"];
 

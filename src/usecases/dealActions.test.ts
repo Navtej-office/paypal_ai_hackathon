@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-
+import { markDealLive, sendInvoiceForDeal, type SendInvoiceDeps } from "./dealActions";
 import type { DealRecord } from "../store/dealRows";
-import { markDealLive, SendInvoiceDeps, sendInvoiceForDeal } from "./dealActions";
 
 const now = new Date(Date.UTC(2026, 10, 10, 12));
 const DAY_MS = 24 * 60 * 60 * 1000;

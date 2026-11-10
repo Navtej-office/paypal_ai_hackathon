@@ -35,6 +35,18 @@ export function createDealStore(db: SupabaseClient) {
       return rowToDeal(data as DealRow);
     },
 
+        async listAudit(dealId: string): Promise<AuditEntry[]> {
+      const { data, error } = await db
+        .from("audit_log")
+        .select("*")
+        .eq("deal_id", dealId)
+        .order("created_at", { ascending: true });
+      if (error) throw new Error(`Load audit log failed: ${error.message}`);
+      return (data as Array<{ id: number; created_at: string; actor: AuditActor; action: string; detail: unknown }>).map(
+        (row) => ({ id: row.id, createdAt: new Date(row.created_at), actor: row.actor, action: row.action, detail: row.detail }),
+      );
+    },
+
     async listDeals(): Promise<DealRecord[]> {
       const { data, error } = await db.from("deals").select("*").order("created_at", { ascending: false });
       if (error) throw new Error(`List deals failed: ${error.message}`);
@@ -76,3 +88,8 @@ export function createDealStore(db: SupabaseClient) {
 }
 
 export type DealStore = ReturnType<typeof createDealStore>;
+
+
+export type AuditEntry = { id: number; createdAt: Date; actor: AuditActor; action: string; detail: unknown };
+
+
