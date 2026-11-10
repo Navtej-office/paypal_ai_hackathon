@@ -33,6 +33,22 @@ export function createDealStore(db: SupabaseClient) {
       const { data, error } = await db.from("deals").insert(newDealRow(deal, sourceEmail)).select().single();
       if (error) throw new Error(`Save deal failed: ${error.message}`);
       return rowToDeal(data as DealRow);
+    },    // Saves a PayPal webhook event. Returns false if this event was already fully processed,
+    // so the caller can skip it. An event that arrived before but failed half-way returns true
+    // again, so PayPal's retry gets another chance.
+    async recordWebhookEvent(id: string, type: string, payload: unknown): Promise<boolean> {
+      const { error } = await db.from("webhook_events").insert({ id, event_type: type, payload });
+      if (!error) return true;
+      if (error.code !== "23505") throw new Error(`Save webhook event failed: ${error.message}`); // 23505 = duplicate key
+
+      const { data, error: readError } = await db.from("webhook_events").select("processed_at").eq("id", id).single();
+      if (readError) throw new Error(`Read webhook event failed: ${readError.message}`);
+      return data.processed_at === null;
+    },
+
+    async markWebhookProcessed(id: string): Promise<void> {
+      const { error } = await db.from("webhook_events").update({ processed_at: new Date().toISOString() }).eq("id", id);
+      if (error) throw new Error(`Mark webhook processed failed: ${error.message}`);
     },
 
         async listAudit(dealId: string): Promise<AuditEntry[]> {
