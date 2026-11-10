@@ -64,5 +64,38 @@ export function createPayPalClient({ baseUrl, getToken, fetchFn = fetch }: PayPa
         payUrl: data.detail?.metadata?.recipient_view_url,
       };
     },
+    
+    // Asks PayPal whether a webhook really came from PayPal, using the signature headers it sent.
+    async verifyWebhookSignature(input: {
+      headers: Record<string, string | null | undefined>;
+      event: unknown;
+      webhookId: string;
+    }): Promise<boolean> {
+      const h = input.headers;
+      const needed = [
+        "paypal-auth-algo",
+        "paypal-cert-url",
+        "paypal-transmission-id",
+        "paypal-transmission-sig",
+        "paypal-transmission-time",
+      ];
+      if (needed.some((name) => !h[name])) return false;
+
+      const res = await request("/v1/notifications/verify-webhook-signature", {
+        method: "POST",
+        body: {
+          auth_algo: h["paypal-auth-algo"],
+          cert_url: h["paypal-cert-url"],
+          transmission_id: h["paypal-transmission-id"],
+          transmission_sig: h["paypal-transmission-sig"],
+          transmission_time: h["paypal-transmission-time"],
+          webhook_id: input.webhookId,
+          webhook_event: input.event,
+        },
+      });
+      if (!res.ok) throw new Error(`PayPal verify webhook failed: ${res.status} ${await res.text()}`);
+      const data = (await res.json()) as { verification_status?: string };
+      return data.verification_status === "SUCCESS";
+    },
   };
 }
