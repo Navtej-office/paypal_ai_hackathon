@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import { markLiveAction, sendInvoiceAction, type FormState } from "./actions";
 import type { DealStatus } from "../../../domain/deal";
+  import { markLiveAction, sendInvoiceAction, checkPaymentAction, type FormState } from "./actions";
 
 export function DealActions({ dealId, status }: { dealId: string; status: DealStatus }) {
   const [liveState, liveAction, livePending] = useActionState<FormState, FormData>(markLiveAction.bind(null, dealId), {});
@@ -10,6 +10,11 @@ export function DealActions({ dealId, status }: { dealId: string; status: DealSt
     sendInvoiceAction.bind(null, dealId),
     {},
   );
+
+  const [checkState, checkAction, checkPending] = useActionState<FormState, FormData>(
+      checkPaymentAction.bind(null, dealId),
+      {},
+    );
 
   if (status === "draft") {
     return (
@@ -35,5 +40,18 @@ export function DealActions({ dealId, status }: { dealId: string; status: DealSt
     );
   }
 
-  return null; // invoiced or paid: nothing to do here
+      if (status === "invoiced") {
+      return (
+        <form action={checkAction}>
+          <h3>Waiting for the brand to pay</h3>
+          <p className="muted">Dealflow updates automatically when PayPal reports the payment. You can also check now.</p>
+          {checkState.error && <p className="error">{checkState.error}</p>}
+          {checkState.message && <p className="muted">{checkState.message}</p>}
+          <button type="submit" disabled={checkPending}>{checkPending ? "Checking PayPal..." : "Check payment"}</button>
+        </form>
+      );
+    }
+
+    return null; // paid: nothing to do here
+
 }

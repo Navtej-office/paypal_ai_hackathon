@@ -61,7 +61,6 @@ export default async function DealPage({ params }: { params: Promise<{ id: strin
 
       <div className="card">
         <DealActions dealId={deal.id} status={deal.status} />
-        {deal.status === "invoiced" && <p className="muted">Waiting for the brand to pay.</p>}
         {deal.status === "paid" && <p>Paid. Nice work.</p>}
       </div>
 
