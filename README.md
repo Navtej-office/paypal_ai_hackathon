@@ -4,7 +4,7 @@
 
 Built for the **PayPal AI Hackathon** (Business Solutions track).
 
-- **Live demo:** https://YOUR-APP.onrender.com (login details are in the Devpost submission)
+- **Live demo:** [https://YOUR-APP.onrender.com](https://dealflow-bdou.onrender.com) (login details are in the Devpost submission)
 - **Demo video:** https://youtu.be/YOUR-VIDEO
 
 ![Dashboard](docs/dashboard.png)
