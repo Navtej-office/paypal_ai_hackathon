@@ -27,9 +27,6 @@ Most of these creators have no manager or accountant, so this admin work comes o
 
 Every action is recorded in a history log that shows who did it: the **AI**, the **creator**, **PayPal** or the **system**.
 
-| Paste email | Deal page | PayPal invoice |
-|---|---|---|
-| ![New deal](docs/new-deal.png) | ![Deal page](docs/deal.png) | ![Invoice](docs/invoice.png) |
 
 ## How PayPal is used
 
